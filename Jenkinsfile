@@ -23,8 +23,10 @@ pipeline {
 
       stage ('Docker Build and Push') {
         steps {
-          sh 'docker build -t kbaafi/numeric-app:""$GIT_COMMIT"" .'
-          sh 'docker push kbaafi/numeric-app:""$GIT_COMMIT""'
+          withDockerRegistry([credentialsId: "dockerhub", url: ""]){
+            sh 'docker build -t kbaafi/numeric-app:""$GIT_COMMIT"" .'
+            sh 'docker push kbaafi/numeric-app:""$GIT_COMMIT""'
+          }
         }
       }
   }
